@@ -5,13 +5,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home Page</title>
+    <style>
+      .blogs-container {
+        display: grid;
+        grid-template-columns: repeat(3, auto);
+        gap: 20px;
+        grid-auto-flow: row;
+      }
+    </style>
   </head>
   <body>
     <%-include ("./layouts/components/nav")%>
     <div class="container">
-      <div class="row mt-5">
+      <div class="blogs-container mt-5">
         <% blogs.forEach(blog => { %>
-        <div class="card mx-3 col" style="width: 18rem">
+        <div class="card mx-3" style="width: 100%">
           <img
             src="/uploads/<%= blog.coverImage %>"
             class="card-img-top"
@@ -19,10 +27,6 @@
           />
           <div class="card-body">
             <h5 class="card-title"><%= blog.title.slice(0, 35) %>...</h5>
-            <!-- <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p> -->
             <a href="/blog/view/<%= blog._id %>" class="btn btn-primary"
               >View full blog</a
             >
