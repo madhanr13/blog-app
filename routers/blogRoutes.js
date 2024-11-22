@@ -1,27 +1,26 @@
 const express = require("express");
 const multer = require("multer");
-const path = require("path");
 const router = express.Router();
+
+const {
+  createNewBlogPost,
+  renderCreateBlogPage,
+  renderBlogPostPage,
+} = require("../controllers/blogControllers");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./public/uploads/");
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname);
+    cb(null, `${req.user._id}- ${Date.now()} ${file.originalname}`);
   },
 });
 
 const upload = multer({ storage: storage });
 
-router.get("/create", function (req, res) {
-  res.render("createBlog");
-});
-
-router.post("/create", upload.single("coverImage"), function (req, res) {
-  console.log(req.body);
-  console.log(req.file);
-  res.render("createBlog");
-});
+router.get("/create", renderCreateBlogPage);
+router.get("/view/:id", renderBlogPostPage);
+router.post("/create", upload.single("coverImage"), createNewBlogPost);
 
 module.exports = router;
